@@ -12,7 +12,7 @@ Start by cloning the project:
 
 ```bash
 git clone https://github.com/alonzojoe/shift-scheduler-frontend.git
-cd shift-scheduler-frontend.git
+cd shift-scheduler-frontend
 ```
 
 ### Install Dependencies
