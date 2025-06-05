@@ -4,7 +4,8 @@ import VueSweetalert2 from "vue-sweetalert2";
 import "./style.css";
 import "bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import 'sweetalert2/dist/sweetalert2.min.css'
+import "bootstrap/dist/js/bootstrap.min.js";
+import "sweetalert2/dist/sweetalert2.min.css";
 
 import App from "./App.vue";
 

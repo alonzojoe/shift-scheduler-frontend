@@ -1,8 +1,24 @@
 <template>
+    <Modal title="Shift Details" modalId="shiftModal">
+        <template #body>
+            <div class="mb-3">
+                <label for="xtimezone" class="form-label">Start</label>
+                <input type="text" class="form-control" id="xtimezone">
+            </div>
+            <div class="mb-3">
+                <label for="xtimezone" class="form-label">End</label>
+                <input type="text" class="form-control" id="xtimezone">
+            </div>
+        </template>
+        <template #footer>
+            <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary btn-sm">Save</button>
+        </template>
+    </Modal>
     <div class="mt-5">
         <div class="d-flex align-items-center justify-content-between gap-2 flex-wrap mt-2">
             <h3>Shifts</h3>
-            <button class="btn btn-primary">Add New</button>
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#shiftModal">Add New</button>
         </div>
 
         <div class="table-responsive">
@@ -36,7 +52,7 @@
 </template>
 
 <script setup>
-
+import Modal from './UI/Modal.vue';
 </script>
 
 <style lang="scss" scoped></style>
