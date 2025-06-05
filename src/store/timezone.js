@@ -11,13 +11,11 @@ const useTimezone = defineStore("timezone", {
     };
   },
   actions: {
-    async getTimezone(timezone) {
+    async getTimezone() {
       this.isLoading = true;
       this.error = null;
       try {
-        const res = await api("/timezone", {
-          params: { timezone },
-        });
+        const res = await api("/timezone");
         console.log("res", res);
         this.timezone = res.data.timezone;
       } catch (error) {

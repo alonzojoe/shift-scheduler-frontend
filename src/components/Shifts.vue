@@ -13,7 +13,7 @@
         <template #footer>
             <button ref="btnCloseRef" type="button" class="btn btn-secondary btn-sm"
                 data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary btn-sm" @click="handleCreateShift"
+            <button type="button" class="btn btn-primary btn-sm" @click="handleSaveShift"
                 :disabled="timezoneStore.isSaving">Save</button>
         </template>
     </Modal>
@@ -22,7 +22,6 @@
             <h3>Shifts</h3> {{ timezoneStore.timezone }}
             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#shiftModal">Add New</button>
         </div>
-
         <div class="table-responsive">
             <table class="table table-bordered mt-3">
                 <thead>
@@ -41,17 +40,19 @@
                             <td>{{ index + 1 }}</td>
                             <td>{{ shift.start }}</td>
                             <td>{{ shift.end }}</td>
-                            <td>{{ shift.duration }}</td>
+                            <td>{{ parseFloat(shift.duration).toFixed(2) }}</td>
                             <td>
                                 <div class="d-flex justify-content-center gap-2 align-items-center flex-wrap">
-                                    <button class="btn btn-primary btn-sm">Update</button>
+                                    <button class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                                        data-bs-target="#shiftModal" @click="viewShift(shift)">Update</button>
                                     <button class="btn btn-danger btn-sm"
                                         @click="handleDelete(shift.id)">Delete</button>
                                 </div>
                             </td>
                         </tr>
                     </template>
-                    <tr class="text-center" v-if="!shiftsStore.isLoading && shiftsStore.shifts.length === 0">
+                    <tr class="text-center"
+                        v-if="!shiftsStore.error && !shiftsStore.isLoading && shiftsStore.shifts.length === 0">
                         <td colspan="5">
                             No data found
                         </td>
@@ -74,47 +75,69 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watchEffect } from 'vue';
 import Modal from './UI/Modal.vue';
 import Loader from './UI/Loader.vue';
 import useShifts from "../store/shift"
 import useTimezone from '../store/timezone';
 import { confirmation } from "../utils/libs"
+import moment from "moment-timezone";
 
 const shiftsStore = useShifts()
 const timezoneStore = useTimezone()
 const btnCloseRef = ref(null)
 
+const isUpdate = ref(false)
+
 const formData = ref({
+    id: "",
     start: "",
     end: ""
 })
 
 const resetForm = () => {
     formData.value = {
+        id: "",
         start: "",
         end: ""
     }
+    isUpdate.value = false
 }
 
-const handleCreateShift = async () => {
-    await shiftsStore.createShift({ ...formData.value, timezone: timezoneStore.timezone })
+const handleSaveShift = async () => {
+    isUpdate.value ? await shiftsStore.updateShift({ ...formData.value, timezone: timezoneStore.timezone }, formData.value.id) : await shiftsStore.createShift({ ...formData.value, timezone: timezoneStore.timezone })
     resetForm()
     btnCloseRef.value.click()
-    shiftsStore.fetchShifts()
+    shiftsStore.fetchShifts(timezoneStore.timezone)
+}
+
+const viewShift = (shift) => {
+    formData.value = {
+        id: shift.id,
+        start: moment.utc(shift.rawStart).tz(timezoneStore.timezone).format("YYYY-MM-DDTHH:mm"),
+        end: moment.utc(shift.rawEnd).tz(timezoneStore.timezone).format("YYYY-MM-DDTHH:mm"),
+    }
+    isUpdate.value = true
 }
 
 const handleDelete = (id) => {
     confirmation("Confirmation", "Are you sure to delete this?", "question",).then(async (res) => {
         if (res.isConfirmed) {
             await shiftsStore.deleteShift(id)
-            shiftsStore.fetchShifts()
+            shiftsStore.fetchShifts(timezoneStore.timezone)
         }
     })
 }
 
+watchEffect(async () => {
+    if (timezoneStore.timezone) {
+        await shiftsStore.fetchShifts(timezoneStore.timezone)
+    }
+})
+
+
 onMounted(async () => {
-    await shiftsStore.fetchShifts()
+    await shiftsStore.fetchShifts('Asia/Manila')
 })
 
 </script>
