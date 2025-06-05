@@ -12,13 +12,26 @@
         </template>
     </Modal>
     <div class="d-flex align-items-center justify-content-between gap-2 flex-wrap mt-2">
-        <h3>Current Timezone: <span class="text-decoration-underline">Asia/Manila</span></h3>
-        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#timezoneModal">Update Timezone</button>
+        <h3>Current Timezone:
+            <Loader v-if="timezoneStore.isLoading" />
+            <span class="text-decoration-underline" v-else>{{ timezoneStore.timezone }}</span>
+        </h3>
+        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#timezoneModal"
+            :disabled="timezoneStore.isLoading">Update Timezone</button>
     </div>
 </template>
 
 <script setup>
+import { onMounted } from 'vue';
 import Modal from './UI/Modal.vue';
+import Loader from './UI/Loader.vue';
+import useTimezone from "../store/timezone"
+
+const timezoneStore = useTimezone()
+
+onMounted(async () => {
+    await timezoneStore.getTimezone()
+})
 </script>
 
 <style lang="scss" scoped></style>
