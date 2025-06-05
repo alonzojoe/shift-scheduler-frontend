@@ -1,12 +1,14 @@
 <script setup>
 import Navbar from './components/Navbar.vue';
+import Timezone from './components/Timezone.vue';
+import Shifts from './components/Shifts.vue';
 </script>
 
 <template>
   <Navbar />
-  <div class="container">
-
-    <h2>App</h2>
+  <div class="container" style="padding-top: 4rem;">
+    <Timezone />
+    <Shifts />
   </div>
 </template>
 

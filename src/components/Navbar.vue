@@ -3,7 +3,6 @@
         <div class="container-fluid d-flex justify-content-between align-items-center">
             <div>
                 <a class="navbar-brand" href="">Shift Scheduler</a>
-
             </div>
 
 
