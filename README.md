@@ -1,5 +1,46 @@
-# Vue 3 + Vite
+# Shift Scheduler Frontend (Vue 3 Composition API)
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+## Overview
 
-Learn more about IDE Support for Vue in the [Vue Docs Scaling up Guide](https://vuejs.org/guide/scaling-up/tooling.html#ide-support).
+This project is a Shift Scheduler application frontend built using Vue 3 with the Composition API. It allows users to create, update, and view shifts with accurate time handling across different timezones. The app integrates with a backend API that stores shift data in UTC format and dynamically converts shift times based on the user’s selected timezone.
+
+## 🔧 Installation & Setup
+
+### 1️⃣ Clone the Repository
+
+Start by cloning the project:
+
+```bash
+git clone https://github.com/alonzojoe/shift-scheduler-frontend.git
+cd shift-scheduler-frontend.git
+```
+
+### Install Dependencies
+
+Run the following to install required packages:
+
+```bash
+npm install
+```
+
+### Setup .env File
+
+Assignt the API endpoint URL to the `.env` file: VITE_API_URL
+
+```bash
+VITE_API_URL=API_ENDPOINT
+```
+
+### Start the app
+
+Run the command below
+
+```bash
+npm run dev
+```
+
+### Preview the project in your browser:
+
+```bash
+http://localhost:5173/
+```
