@@ -6,8 +6,9 @@
             </div>
 
 
-            <div class="d-flex align-items-center gap-1">
-                <div class="icon-container border border-secondary rounded p-1 cursor-pointer" @click="toggleTheme">
+            <div>
+                <div class="icon-container border border-secondary rounded px-1 cursor-pointer pt-1"
+                    @click="toggleTheme">
                     <i class="bx fs-3" :class="theme === 'dark' ? 'bx-sun' : 'bx-moon'"></i>
                 </div>
             </div>
