@@ -16,7 +16,7 @@
         <h3>Current Timezone:
             <Loader v-if="timezoneStore.isLoading" />
             <span class="text-danger" v-else-if="!timezoneStore.isLoading && timezoneStore.error">{{ timezoneStore.error
-            }}</span>
+                }}</span>
             <span class="text-decoration-underline" v-else>{{ timezoneStore.timezone }}</span>
         </h3>
         <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#timezoneModal"

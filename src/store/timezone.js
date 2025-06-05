@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
-import Swal from "sweetalert2";
 import api from "../services/api";
+import { swal } from "../utils/libs";
 
 const useTimezone = defineStore("timezone", {
   state: () => {
@@ -11,11 +11,13 @@ const useTimezone = defineStore("timezone", {
     };
   },
   actions: {
-    async getTimezone() {
+    async getTimezone(timezone) {
       this.isLoading = true;
       this.error = null;
       try {
-        const res = await api("/timezone");
+        const res = await api("/timezone", {
+          params: { timezone },
+        });
         console.log("res", res);
         this.timezone = res.data.timezone;
       } catch (error) {
@@ -32,13 +34,11 @@ const useTimezone = defineStore("timezone", {
           timezone: payload,
         });
         this.timezone;
-        Swal.fire({
-          title: "Message",
-          text: "Timezone updated successfully!",
-          icon: "success",
-        }).then(() => {
-          location.reload();
-        });
+        swal("Message", "Timezone updated successfully!", "success").then(
+          () => {
+            location.reload();
+          }
+        );
       } catch (error) {
         console.log(error?.message);
       } finally {
