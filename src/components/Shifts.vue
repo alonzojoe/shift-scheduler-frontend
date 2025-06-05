@@ -19,7 +19,7 @@
     </Modal>
     <div class="mt-5">
         <div class="d-flex align-items-center justify-content-between gap-2 flex-wrap mt-2">
-            <h3>Shifts</h3> {{ timezoneStore.timezone }}
+            <h3>Shifts</h3>
             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#shiftModal">Add New</button>
         </div>
         <div class="table-responsive">
