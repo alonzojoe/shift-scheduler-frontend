@@ -25,7 +25,7 @@ npm install
 
 ### Setup .env File
 
-Assignt the API endpoint URL to the `.env` file: VITE_API_URL
+Assign the API endpoint URL to the `.env` file: VITE_API_URL
 
 ```bash
 VITE_API_URL=API_ENDPOINT
