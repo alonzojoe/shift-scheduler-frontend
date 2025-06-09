@@ -31,7 +31,6 @@ const useTimezone = defineStore("timezone", {
         await api.put("/timezone", {
           timezone: payload,
         });
-        this.timezone;
         swal("Message", "Timezone updated successfully!", "success").then(
           () => {
             location.reload();

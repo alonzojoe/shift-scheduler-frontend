@@ -136,9 +136,6 @@ watchEffect(async () => {
 })
 
 
-onMounted(async () => {
-    await shiftsStore.fetchShifts('Asia/Manila')
-})
 
 </script>
 
