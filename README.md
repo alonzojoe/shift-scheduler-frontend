@@ -44,3 +44,70 @@ npm run dev
 ```bash
 http://localhost:5173/
 ```
+
+### Deployment
+
+A Dockerfile has already been set up in the root folder of the project, including:
+
+```bash
+FROM node:18 as build-stage
+
+WORKDIR /app
+
+COPY .env.production .env.production
+
+COPY package*.json ./
+RUN npm install
+
+COPY . .
+
+
+RUN npm run build
+
+
+FROM nginx:stable-alpine
+
+RUN rm -rf /etc/nginx/conf.d/*
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+COPY --from=build-stage /app/dist /usr/share/nginx/html
+
+EXPOSE 8080
+
+CMD ["nginx", "-g", "daemon off;"]
+```
+
+Nginx Configuration Using Google Cloud’s Default Port 8080
+
+```bash
+server {
+    listen 8080;
+    server_name localhost;
+
+    root /usr/share/nginx/html;
+    index index.html;
+
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+
+    error_page 404 /index.html;
+    location = /index.html {
+        internal;
+    }
+}
+```
+
+### Uploading to Google Cloud Run
+
+Replace the project name based on your preference, then deploy the application using the following command:
+
+```bash
+gcloud run deploy shift-scheduler-frontend --source . --region us-central1 --project fc-itw-joenell --platform managed --allow-unauthenticated
+```
+
+Wait for the upload to finish—it will then generate the service URL for the API endpoint:
+
+```bash
+https://shift-scheduler-frontend-178551843876.us-central1.run.app
+```
